@@ -9,7 +9,58 @@ for i from 1 to N
     endfor
 endfor
 """
-class Graph:
+
+class Edge:
+    
+    def __init__(self, name: str, head = None, end = None) -> None:
+        self.name = name
+        self.head = head
+        self.end = end
+    
+    def get_name(self):
+        return self.name
+    
+    def set_name(self, name: str) -> None:
+        self.name = name
+        
+    def get_head(self):
+        return self.head
+    
+    def set_head(self, head):
+        self.head = head
+    
+    def get_end(self):
+        return self.end
+    
+    def set_end(self, end):
+        self.end = end
+    
+    def __str__(self) -> str:
+        return self.name
+
+
+class Node:
+    def __init__(self, data: str) -> None:
+        self.data = data
+        self.edges = []
+    
+    def get_data(self):
+        return self.data
+    
+    def set_data(self, data: str) -> None:
+        self.data = data
+        
+    def get_edges(self):
+        return self.edges
+    
+    def set_edges(self, edge):
+        self.edges.append(edge)
+
+    def __str__(self) -> str:
+        return self.data
+
+class Graph_:
+    
     def __init__(self, graph_name: str, number_of_nodes: int):
         self.__graph_name = graph_name
         self.__number_of_nodes = number_of_nodes
@@ -58,20 +109,48 @@ class Graph:
                 self.__matrix[i][j] = input("({}, {}) elementni kiriting: ".format(self.__nodes_name[i], self.__nodes_name[j]))
         return self.__matrix
     
+
+class Graph:
+    
+    def __init__(self, name: str, number_nodes: int) -> None:
+        self.name = name
+        self.number_nodes = number_nodes
+        
     
     
+    
+node_a = Node("A")
+node_b = Node("B")
+node_c = Node("C")
+
+edge_a_a = Edge("a_a", node_a, node_a)
+edge_a_b = Edge("a_b", node_a, node_b)
+edge_a_c = Edge("a_c", node_a, node_c)
+edge_b_c = Edge("b_c", node_b, node_c)
+edge_c_b = Edge("c_b", node_c, node_b)
 
 
-graph_A = Graph("Graph A", 3)
-print(graph_A.get_graph_name())
-print(graph_A.get_number_of_nodes())
-print(graph_A.get_nodes_name())
-print(graph_A.get_matrix())
+# print(edge_a_a.head.data)
+# print(edge_a_a.end.data)
+# print(edge_a_b.head.data)
+# print(edge_a_b.end.data)
 
-graph_A.set_graph_name("Graph Zafar")
-graph_A.set_nodes_name(["A", "B", "C"])
-graph_A.set_matrix()
-print(graph_A.get_graph_name())
-print(graph_A.get_number_of_nodes())
-print(graph_A.get_nodes_name())
-print(graph_A.get_matrix())
+node_a.set_edges(edge_a_a)
+node_a.set_edges(edge_a_b)
+node_a.set_edges(edge_a_c)
+for i in node_a.get_edges():
+    print(i)
+
+# graph_A = Graph("Graph A", 3)
+# print(graph_A.get_graph_name())
+# print(graph_A.get_number_of_nodes())
+# print(graph_A.get_nodes_name())
+# print(graph_A.get_matrix())
+
+# graph_A.set_graph_name("Graph Zafar")
+# graph_A.set_nodes_name(["A", "B", "C"])
+# graph_A.set_matrix()
+# print(graph_A.get_graph_name())
+# print(graph_A.get_number_of_nodes())
+# print(graph_A.get_nodes_name())
+# print(graph_A.get_matrix())
