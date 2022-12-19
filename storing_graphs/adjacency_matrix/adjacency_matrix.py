@@ -54,6 +54,7 @@ class Edge:
 
 
 class Node:
+    
     def __init__(self, name: str, id) -> None:
         self.name = name
         self.id = id
@@ -80,68 +81,22 @@ class Node:
     def __str__(self) -> str:
         return self.name
 
-class Graph_:
-    
-    def __init__(self, graph_name: str, number_of_nodes: int):
-        self.__graph_name = graph_name
-        self.__number_of_nodes = number_of_nodes
-        
-        
-        self.__matrix = self.matrix_()
-        self.__nodes_name = self.nodes_name_()
-    
-    def get_graph_name(self):
-        return self.__graph_name
-    
-    def set_graph_name(self, new_graph_name: str) -> None:
-        self.__graph_name = new_graph_name
-      
-    def get_number_of_nodes(self) -> int:
-        return self.__number_of_nodes
-      
-    def matrix_(self):
-        matrix = []
-        for i in range(self.__number_of_nodes):
-            matrix.append([])
-            for j in range(self.__number_of_nodes):
-                matrix[i].append(None)
-        return matrix
-    
-    def nodes_name_(self) -> dict[str]:
-        name_nodes = {}
-        for i in range(self.__number_of_nodes):
-            name_nodes[i] = None
-        return name_nodes
-    
-    def get_nodes_name(self):
-        return self.__nodes_name
-    
-    def set_nodes_name(self, nodes_name : list[str]) -> None:
-        for i, e in enumerate(nodes_name):
-            self.__nodes_name[i] = e
-
-    def get_matrix(self):
-        return self.__matrix
-    
-    def set_matrix(self):
-        """n represents the number of nodes"""
-        for i in range(self.__number_of_nodes):
-            for j in range(self.__number_of_nodes):
-                self.__matrix[i][j] = input("({}, {}) elementni kiriting: ".format(self.__nodes_name[i], self.__nodes_name[j]))
-        return self.__matrix
-    
 
 class Graph:
     
-    def __init__(self, name: str, number_nodes: int) -> None:
+    def __init__(self, name: str, number_nodes: int, name_of_nodes: list[str], matrix_status: list[list[int]]) -> None:
         self.name = name
         self.number_nodes = number_nodes
+        self.name_of_nodes = name_of_nodes
+        self.matrix_status = matrix_status
         
         self.nodes = []
         self.new_nodes()
         
         self.edges = []
         self.new_edges()
+        
+        self.connecting_edges_to_nodes()
         
     def get_name(self):
         return self.name
@@ -151,21 +106,34 @@ class Graph:
         
     def get_number_nodes(self):
         return self.number_nodes
-        
-    def set_number_nodes(self, number_nodes: int):
-        self.number_nodes = number_nodes
     
     def new_nodes(self):
-        # self.nodes = []
         for i in range(self.number_nodes):
-            new_node = Node("{}-node".format(i), i)
+            new_node = Node(self.name_of_nodes[i], i)
             self.nodes.append(new_node)
             
     def new_edges(self):
         for i in range(self.number_nodes):
             for j in range(self.number_nodes):
-                new_edge = Edge("({}, {})-edge".format(i, j), (i, j), self.nodes[i], self.nodes[j])
+                x = self.matrix_status[i][j]
+                if x == 1:
+                    status = True
+                else:
+                    status = False
+                new_edge = Edge("({}, {})-edge".format(i, j), (i, j), status, self.nodes[i], self.nodes[j])
                 self.edges.append(new_edge)
+                
+    def connecting_edges_to_nodes(self):
+        for i in self.nodes:
+            for j in self.edges:
+                edge = j.get_id()
+                if i.get_id() == edge[0]:
+                    i.set_edges(j)
+                     
+    def activation_edges_matrix_status(self, matrix_status):
+        for i in range(self.number_nodes):
+            for j in range(self.number_nodes):
+                pass
     
     def activation_edges(self):
         for i in self.edges:
@@ -184,9 +152,7 @@ class Graph:
     def activation_edge(self, id: tuple):
         edge = self.search_edge_id(id)
         edge.set_status(True)
-            
-            
-    
+             
     def set_name_nodes(self):
         pass
   
@@ -194,16 +160,19 @@ class Graph:
         pass
         
     
-    
+name_of_nodes = ['A', 'B', 'C', 'D', 'E', 'F']
+matrix_status = [[0, 1, 0, 1, 0, 0],
+          [1, 0, 0, 1, 1, 0],
+          [0, 0, 0, 0, 1, 1],
+          [1, 1, 0, 0, 1, 0],
+          [0, 1, 1, 1, 0, 0],
+          [0, 0, 1, 0, 0, 1]]
 
-graph_B = Graph("Graph B", 2)
-graph_B.activation_edges()
-for i in graph_B.edges:
-    print(i, i.get_status())
-    
-graph_B.activation_edge((1, 1))
-for i in graph_B.edges:
-    print(i, i.get_status())
+graph_D = Graph("Graph D", 6, name_of_nodes, matrix_status)
+for i in graph_D.nodes:
+    print("Name of nodes: ", i.get_name(), "ID of nodes: ", i.get_id())
+# graph_D.activation_edges()
+
 
 # node_a = Node("A")
 # node_b = Node("B")
