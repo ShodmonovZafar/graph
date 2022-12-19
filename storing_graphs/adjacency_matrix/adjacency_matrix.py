@@ -12,8 +12,10 @@ endfor
 
 class Edge:
     
-    def __init__(self, name: str, head = None, end = None) -> None:
+    def __init__(self, name: str, id = None, status = False, head = None, end = None) -> None:
         self.name = name
+        self.id = id
+        self.status = status
         self.head = head
         self.end = end
     
@@ -22,6 +24,18 @@ class Edge:
     
     def set_name(self, name: str) -> None:
         self.name = name
+        
+    def get_id(self):
+        return self.id
+    
+    def set_id(self, id):
+        self.id = id
+    
+    def get_status(self):
+        return self.status
+    
+    def set_status(self, status):
+        self.status = status
         
     def get_head(self):
         return self.head
@@ -40,15 +54,22 @@ class Edge:
 
 
 class Node:
-    def __init__(self, data: str) -> None:
-        self.data = data
+    def __init__(self, name: str, id) -> None:
+        self.name = name
+        self.id = id
         self.edges = []
     
-    def get_data(self):
-        return self.data
+    def get_name(self):
+        return self.name
     
-    def set_data(self, data: str) -> None:
-        self.data = data
+    def set_name(self, name: str) -> None:
+        self.name = name
+        
+    def get_id(self):
+        return self.id
+    
+    def set_id(self, id):
+        self.id = id
         
     def get_edges(self):
         return self.edges
@@ -57,7 +78,7 @@ class Node:
         self.edges.append(edge)
 
     def __str__(self) -> str:
-        return self.data
+        return self.name
 
 class Graph_:
     
@@ -116,18 +137,83 @@ class Graph:
         self.name = name
         self.number_nodes = number_nodes
         
+        self.nodes = []
+        self.new_nodes()
+        
+        self.edges = []
+        self.new_edges()
+        
+    def get_name(self):
+        return self.name
+    
+    def set_name(self, name: str):
+        self.name = name
+        
+    def get_number_nodes(self):
+        return self.number_nodes
+        
+    def set_number_nodes(self, number_nodes: int):
+        self.number_nodes = number_nodes
+    
+    def new_nodes(self):
+        # self.nodes = []
+        for i in range(self.number_nodes):
+            new_node = Node("{}-node".format(i), i)
+            self.nodes.append(new_node)
+            
+    def new_edges(self):
+        for i in range(self.number_nodes):
+            for j in range(self.number_nodes):
+                new_edge = Edge("({}, {})-edge".format(i, j), (i, j), self.nodes[i], self.nodes[j])
+                self.edges.append(new_edge)
+    
+    def activation_edges(self):
+        for i in self.edges:
+            a = int(input("{}-ni bor yoki yo'qligini kiriting, bor bo'lsa 1, yo'q bo'ls 0 kiriting: ".format(i)))
+            if a == 1:
+                b = True
+            else:
+                b = False
+            i.set_status(b)
+    
+    def search_edge_id(self, id: tuple):
+        for i in self.edges:
+            if i.get_id() == id:
+                return i
+    
+    def activation_edge(self, id: tuple):
+        edge = self.search_edge_id(id)
+        edge.set_status(True)
+            
+            
+    
+    def set_name_nodes(self):
+        pass
+  
+    def new_matrix(self):
+        pass
+        
     
     
-    
-node_a = Node("A")
-node_b = Node("B")
-node_c = Node("C")
 
-edge_a_a = Edge("a_a", node_a, node_a)
-edge_a_b = Edge("a_b", node_a, node_b)
-edge_a_c = Edge("a_c", node_a, node_c)
-edge_b_c = Edge("b_c", node_b, node_c)
-edge_c_b = Edge("c_b", node_c, node_b)
+graph_B = Graph("Graph B", 2)
+graph_B.activation_edges()
+for i in graph_B.edges:
+    print(i, i.get_status())
+    
+graph_B.activation_edge((1, 1))
+for i in graph_B.edges:
+    print(i, i.get_status())
+
+# node_a = Node("A")
+# node_b = Node("B")
+# node_c = Node("C")
+
+# edge_a_a = Edge("a_a", node_a, node_a)
+# edge_a_b = Edge("a_b", node_a, node_b)
+# edge_a_c = Edge("a_c", node_a, node_c)
+# edge_b_c = Edge("b_c", node_b, node_c)
+# edge_c_b = Edge("c_b", node_c, node_b)
 
 
 # print(edge_a_a.head.data)
@@ -135,11 +221,11 @@ edge_c_b = Edge("c_b", node_c, node_b)
 # print(edge_a_b.head.data)
 # print(edge_a_b.end.data)
 
-node_a.set_edges(edge_a_a)
-node_a.set_edges(edge_a_b)
-node_a.set_edges(edge_a_c)
-for i in node_a.get_edges():
-    print(i)
+# node_a.set_edges(edge_a_a)
+# node_a.set_edges(edge_a_b)
+# node_a.set_edges(edge_a_c)
+# for i in node_a.get_edges():
+#     print(i)
 
 # graph_A = Graph("Graph A", 3)
 # print(graph_A.get_graph_name())
