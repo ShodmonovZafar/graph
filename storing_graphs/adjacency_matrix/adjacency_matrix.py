@@ -84,11 +84,11 @@ class Node:
 
 class Graph:
     
-    def __init__(self, name: str, number_nodes: int, name_of_nodes: list[str], matrix_status: list[list[int]]) -> None:
+    def __init__(self, name: str, number_nodes: int, name_of_nodes: list[str], adjacency_matrix: list[list[int]]) -> None:
         self.name = name
         self.number_nodes = number_nodes
         self.name_of_nodes = name_of_nodes
-        self.matrix_status = matrix_status
+        self.adjacency_matrix = adjacency_matrix
         
         self.nodes = []
         self.new_nodes()
@@ -115,7 +115,7 @@ class Graph:
     def new_edges(self):
         for i in range(self.number_nodes):
             for j in range(self.number_nodes):
-                x = self.matrix_status[i][j]
+                x = self.adjacency_matrix[i][j]
                 if x == 1:
                     status = True
                 else:
@@ -124,11 +124,11 @@ class Graph:
                 self.edges.append(new_edge)
                 
     def connecting_edges_to_nodes(self):
-        for i in self.nodes:
-            for j in self.edges:
-                edge = j.get_id()
-                if i.get_id() == edge[0]:
-                    i.set_edges(j)
+        for node in self.nodes:
+            for edge in self.edges:
+                edge_id = edge.get_id()
+                if node.get_id() == edge_id[0]:
+                    node.set_edges(edge)
                      
     def activation_edges_matrix_status(self, matrix_status):
         for i in range(self.number_nodes):
@@ -160,18 +160,18 @@ class Graph:
         pass
         
     
-name_of_nodes = ['A', 'B', 'C', 'D', 'E', 'F']
-matrix_status = [[0, 1, 0, 1, 0, 0],
-          [1, 0, 0, 1, 1, 0],
-          [0, 0, 0, 0, 1, 1],
-          [1, 1, 0, 0, 1, 0],
-          [0, 1, 1, 1, 0, 0],
-          [0, 0, 1, 0, 0, 1]]
+name_of_nodes = ['A', 'B', 'C']
+adjacency_matrix = [
+    [0, 1, 1],
+    [0, 0, 1],
+    [0, 1, 0]
+]
 
-graph_D = Graph("Graph D", 6, name_of_nodes, matrix_status)
-for i in graph_D.nodes:
-    print("Name of nodes: ", i.get_name(), "ID of nodes: ", i.get_id())
-# graph_D.activation_edges()
+graph_A = Graph("Graph_A", 3, name_of_nodes, adjacency_matrix)
+for node in graph_A.nodes:
+    print("Name of nodes: ", node.get_name(), "ID of nodes: ", node.get_id())
+for edge in graph_A.edges:
+    print("Name of edges: ", edge.get_name())
 
 
 # node_a = Node("A")
